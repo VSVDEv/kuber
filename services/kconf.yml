@@ -1,0 +1,11 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: kangular-app-config
+data:
+  ENV_API_URL: "http://knative-service:9000"
+  #ENV_API_URL: "http://knative-service.default.svc.cluster.local:9000"
+  ORIGIN: "http://kangular-app-service:80"
+ # POST_ONE: "http://knative-service:9000/saveOrder"
+ # AUTHORITY_URL: "https://external-auth-service.com"
+ # CLIENT_ID: "your-client-id"

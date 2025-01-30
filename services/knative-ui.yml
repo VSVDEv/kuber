@@ -1,0 +1,42 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: kangular-app
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: kangular-app
+  template:
+    metadata:
+      labels:
+        app: kangular-app
+    spec:
+      containers:
+      - name: kangular-app
+        image: vsvdevua/kangular-app:1
+        ports:
+        - containerPort: 80
+        env:
+        - name: ENV_API_URL
+          valueFrom:
+            configMapKeyRef:
+              name: kangular-app-config
+              key: ENV_API_URL
+       # - name: GET_ONE
+ 
+
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: kangular-app-service
+spec:
+  type: LoadBalancer
+  selector:
+    app: kangular-app
+  ports:
+  - protocol: TCP
+    port: 80
+    targetPort: 80

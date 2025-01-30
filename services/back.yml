@@ -1,0 +1,50 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: knative-app
+  labels:
+    app: knative-app
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: knative-app
+  template:
+    metadata:
+      labels:
+        app: knative-app
+    spec:
+      containers:
+        - name: knative-container
+          image: vsvdevua/knative:0.0.1
+          ports:
+            - containerPort: 9000
+          env:
+          - name: ORIGIN
+            valueFrom:
+              configMapKeyRef:
+                name: kangular-app-config
+                key: ORIGIN
+          - name: JAVA_TOOL_OPTIONS
+            value: "-Xss512K"
+          resources:
+            limits:
+              cpu: "500m"
+              memory: "512Mi"
+            requests:
+              cpu: "250m"
+              memory: "256Mi"
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: knative-service
+spec:
+  selector:
+    app: knative-app
+  ports:
+    - protocol: TCP
+      port: 9000
+      targetPort: 9000
+  type: ClusterIP
