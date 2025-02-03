@@ -78,6 +78,40 @@ echo "\n✅ Knative successfully installed!\n"
 ```
 
 
+### install example on minikube 
+
+kubectl apply --filename https://github.com/knative/serving/releases/download/v0.16.0/serving-crds.yaml
+kubectl apply --filename https://github.com/knative/serving/releases/download/v0.16.0/serving-core.yaml
+kubectl apply --filename https://github.com/knative/net-istio/releases/download/v0.16.0/release.yaml
+kubectl apply --filename https://github.com/knative/eventing/releases/download/v0.16.0/eventing-crds.yaml
+kubectl apply --filename https://github.com/knative/eventing/releases/download/v0.16.0/eventing-core.yaml
+kubectl apply --filename https://github.com/knative/eventing/releases/download/v0.16.0/in-memory-channel.yaml
+
+
+kubectl get pods --namespace knative-serving
+kubectl get pods --namespace knative-eventing
+
+
+kubectl create namespace airwave-deploy
+kubectl label namespace airwave-deploy istio-injection=enabled
+kubectl apply --f https://raw.githubusercontent.com/airwavetechio/hello-world/master/knative-service.yml
+
+minikube ip && kubectl -n istio-system get service istio-ingressgateway -o jsonpath='{.spec.ports[?(@.name==\"http2\")].nodePort}'
+
+
+kubectl get ksvc airwavetech-helloworld -n airwave-deploy --output=custom-columns=NAME:.metadata.name,URL:.status.url
+
+
+curl -H "Host: <your URL without http://>" http://<minikube IP>:<istio-ingressgatway PORT> 
+or
+curl -H "Host: airwavetech-helloworld.airwave-deploy.example.com" http://192.168.79.129:30827 -v -i 
+
+
+kubectl get pods --namespace airwave-deploy
+
+
+
+
 ## Run minikube and destroy
 
 ### Run
@@ -330,3 +364,52 @@ docker login
 docker push vsvdevua/kangular-app:1
 
 docker push vsvdevua/knative:0.0.1
+
+
+
+
+aws eks list-clusters --region us-east-1 --profile sec
+
+aws eks update-kubeconfig --region us-east-1 --name knative --profile sec
+
+aws eks describe-cluster --name vsv --region us-west-2 --profile sec
+
+
+kubectl get svc
+
+C:\Users\vsvdev\.kube
+
+kubectl config get-contexts
+
+kubectl exec -it <pod-name> -- env
+
+kubectl exec -it <frontend-pod-name> -- sh
+
+
+kubectl get ns
+
+knative-serving
+
+
+
+
+
+
+## run 
+
+
+https://labs.play-with-k8s.com/
+
+
+chmod +x run.sh
+
+./run.sh
+
+chmod +x run_with_istio.sh
+
+./run_with_istio.sh
+
+
+then run
+
+kubectl apply -f hello.yaml
