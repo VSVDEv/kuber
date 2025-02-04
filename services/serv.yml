@@ -20,22 +20,9 @@ spec:
               value: "-Xss512K"
           resources:
             limits:
-              cpu: "500m"
+              cpu: "200m"
               memory: "512Mi"
             requests:
-              cpu: "250m"
+              cpu: "200m"
               memory: "256Mi"
-          readinessProbe:
-            httpGet:
-              path: /healthz
-              port: 9000
-            initialDelaySeconds: 5
-            periodSeconds: 5
-            failureThreshold: 3
-          livenessProbe:
-            httpGet:
-              path: /healthz
-              port: 9000
-            initialDelaySeconds: 15
-            periodSeconds: 10
-            failureThreshold: 3
+
