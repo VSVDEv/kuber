@@ -386,9 +386,7 @@ kubectl exec -it <pod-name> -- env
 kubectl exec -it <frontend-pod-name> -- sh
 
 
-kubectl get ns
-
-knative-serving
+kubectl get ns knative-serving
 
 
 

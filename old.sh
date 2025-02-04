@@ -4,7 +4,7 @@
 #-e Exit on Error
 #-u Undefined Variable Check
 #-o pipefail Pipeline Failure Handling
-set -euo pipefail
+#set -euo pipefail
 
 echo "\n📦 Installing Knative CRDs..."
 
@@ -25,5 +25,9 @@ echo "\n📦 Configuring DNS..."
 kubectl patch configmap/config-domain --namespace knative-serving --type merge --patch '{"data":{"127.0.0.1.sslip.io":""}}'
 
 kubectl apply -f https://github.com/knative/serving/releases/download/knative-v1.12.2/serving-default-domain.yaml
+
+# No DNS
+
+#kubectl patch configmap/config-domain --namespace knative-serving --type merge --patch '{"data":{"example.com":""}}'
 
 echo "\n✅ Knative successfully installed!\n"
