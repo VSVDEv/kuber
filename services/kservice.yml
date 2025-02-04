@@ -7,7 +7,7 @@ spec:
     spec:
       containers:
         - name: orders-function
-          image: vsvdevua/knative:0.0.1
+          image: vsvdevua/knative:1
           ports:
             - containerPort: 9000
           env:
@@ -20,8 +20,8 @@ spec:
             value: "-Xss512K"
           resources:
             limits:
-              cpu: "500m"
+              cpu: "200m"
               memory: "512Mi"
             requests:
-              cpu: "250m"
+              cpu: "200m"
               memory: "256Mi"
